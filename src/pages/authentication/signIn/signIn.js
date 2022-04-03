@@ -4,7 +4,6 @@ import { signIn } from '../../../config/config';
 import require from "../../../config/request";
 import {toast} from "react-toastify";
 
-
 function SignIn() {
     const fullName = useRef();
     const Email = useRef();
@@ -29,7 +28,6 @@ function SignIn() {
             role: 'user',
             group: '',
         }
-        console.log(data);
         require.save('users', data).then(res => {
             toast.success("Ro'yhatdan o'tish muvaffaqiyatli amalga oshirildi");
         }).catch(err => {

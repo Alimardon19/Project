@@ -1,24 +1,43 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { login } from "../../../config/config";
+import { useDispatch } from "react-redux";
+import { login, useAuth } from "../../../config/config";
 import {toast} from "react-toastify";
+import {GetUsers} from "../../../reducer/getUser/getUserReducer";
 
 function Login() {
     const Email = useRef();
     const Pass = useRef();
-
+    const current = useAuth();
+    const dispatch = useDispatch();
     let navigate = useNavigate();
+
+    useEffect(()=> {
+        dispatch(GetUsers());
+    }, [])
+
     function signIn() {
-        navigate('/signIn')
+        navigate('/signIn');
     }
+
     async function Submit() {
         try {
             await login(Email.current.value, Pass.current.value);
-            navigate('/cabinet');
         } catch {
             toast.error("Email yoki parol xato")
         }
     }
+
+    useEffect(()=> {
+        if (current) {
+            if (current.email === "alimardon009@gmail.com") {
+                navigate('/admin')
+            }else {
+                navigate('/cabinet')
+            }
+        }
+    }, [current])
+
     return (
         <div className={'login'}>
             <div className="forms">
@@ -31,5 +50,6 @@ function Login() {
         </div>
     );
 }
+
 
 export default Login;
