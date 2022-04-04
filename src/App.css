@@ -84,7 +84,3 @@ h1, h2, h3, h4, h5, h6 { font-family: sans-serif; }
     cursor: pointer;
     transition: 0.2s;
 }
-.card:hover {
-    background-color: #6f6f6f;
-    border: none;
-}

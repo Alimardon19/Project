@@ -12,7 +12,7 @@ function Cabinet() {
     const currentUser = useAuth();
     const [Lesson, setLesson] = useState([]);
     const [selectTask, setSelectTask] = useState([]);
-    const [selectTasks, setSelectTasks] = useState([]);
+    const [selectTasks, setSelectTasks] = useState([{v1: ''}]);
     const user = useSelector(state => state.GetUsers.thisUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -59,6 +59,10 @@ function Cabinet() {
     }
     function SelectLesson(item) {
         setSelectTask(item);
+        selectTasks[0].v1 = '';
+        selectTasks[0].file = '';
+        let a = [...selectTasks]
+        setSelectTasks(a)
     }
 
     localStorage.setItem('email', currentUser.email);
@@ -87,24 +91,24 @@ function Cabinet() {
                     </div> <hr/>
                     <div className="tasksBox">
                         {
+                            selectTask ?
                             selectTask.map((item, index)=> <div
                                 className={'taskBlock'}
                                 key={index}
                                 onClick={()=> setSelectTasks([{...item, id: index +1}])}
                             >
-                                <div className="card">
+                                <div className="card" style={{backgroundColor: `${selectTasks[0].v1 === item.v1 ? "#6f6f6f" : "transparent"}`}}>
                                     <h1> {index + 1} </h1>
                                 </div>
-                            </div>)
+                            </div>) : <h1> Ushbu darsda vazifalar hali mavjud emas </h1>
                         }
 
                     </div>
                     {
-                        selectTasks.map((item, index)=> <h3>
-                            <b>{item.id}</b>
+                        selectTasks.map((item, index)=> <h3 key={index}>
                             <span> {item.v1} </span>
                             {
-                                item.file ? <a href={item.file} download > Vazifani yuklab olish </a> : ''
+                                item.file ? <a href={item.file} download> Vazifani yuklab olish </a> : ''
                             }
                         </h3>)
                     }
